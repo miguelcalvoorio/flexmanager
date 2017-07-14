@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-md-6">
+    <app-welcome></app-welcome>
+  </div>
+  <div class="col-md-6">
+    <div class="bs-component">
+      <br>
+      <div class="well bs-component">
+        <form [formGroup]="joinUsForm" class="form-horizontal" (ngSubmit)="onJoinUsSubmit()">
+          <fieldset>
+            <div class="form-group">
+              <div class="col-md-12">
+                <h3 style="margin-top: 0px">Sign up to start</h3>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-12">
+                Create your account.
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-12" [ngClass]="{'has-error': joinUsForm.controls.joinUsName.dirty && !joinUsForm.controls.joinUsName.valid}">
+                <input type="text" class="form-control input-sm" formControlName="joinUsName" [(ngModel)]="model.firstName" placeholder="Display name" required>
+                <p class="text-danger" *ngIf="joinUsForm.controls.joinUsName.dirty && !joinUsForm.controls.joinUsName.valid">Display name should be at least 5 characters long.</p>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-12" [ngClass]="{'has-error': joinUsForm.controls.joinUsEmail.dirty && !joinUsForm.controls.joinUsEmail.valid}">
+                <input type="text" class="form-control input-sm" id="joinUsEmail" formControlName="joinUsEmail" [(ngModel)]="model.userName" placeholder="Email" required>
+                <p class="text-danger" for="joinUsEmail" *ngIf="joinUsForm.controls.joinUsEmail.dirty && !joinUsForm.controls.joinUsEmail.valid">Please enter a valid email address.</p>
+              </div>
+            </div>
+            <fieldset formGroupName="joinUsCredentials" [ngClass]="{'has-error': joinUsForm.controls.joinUsCredentials.dirty && !joinUsForm.controls.joinUsCredentials.valid}">
+              <div class="form-group">
+                <div class="col-md-12">
+                  <input type="password" class="form-control input-sm" formControlName="joinUsPassword" [(ngModel)]="model.password" placeholder="Password" required>
+                  <div *ngIf="joinUsForm.controls.joinUsCredentials.controls.joinUsPassword.dirty && !joinUsForm.controls.joinUsCredentials.controls.joinUsPassword.valid">
+                    <p class="text-danger" *ngIf="!joinUsForm.controls.joinUsCredentials.controls.joinUsPassword.errors.maxLength">Password must be between 8 and 50 characters.</p>
+                    <p class="text-danger" *ngIf="!joinUsForm.controls.joinUsCredentials.controls.joinUsPassword.errors.complex">Password does not meet complexity criteria.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-12">
+                  <input type="password" class="form-control input-sm" formControlName="joinUsPasswordCheck" placeholder="Retype Password" required>
+                  <p class="text-danger" *ngIf="joinUsForm.controls.joinUsCredentials.dirty && !joinUsForm.controls.joinUsCredentials.valid">Passwords do not match.</p>
+                </div>
+              </div>
+            </fieldset>
+            <div class="form-group">
+              <div class="col-md-12">
+                <a *ngIf="!loading" class="btn btn-primary btn-block" (click)="joinUsSubmit()">Register</a>
+                <a *ngIf="loading" class="btn btn-primary btn-block"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i></a>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

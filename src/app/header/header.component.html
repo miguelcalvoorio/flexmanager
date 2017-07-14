@@ -1,0 +1,33 @@
+<nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0;">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" routerLink="/"><strong>Flex</strong>Manager</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
+            <p class="navbar-text">Flexible project management suite</p>
+            <ul *ngIf="(userLoggedIn | async)" class="nav navbar-nav">
+                <li><a routerLink="/client">My clients</a></li>
+                <li><a routerLink="/project">My Projects</a></li>
+                <li><a routerLink="/task">My Tasks</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li *ngIf="(userLoggedIn | async)" class="active">
+                    <a routerLink="/login" routerLinkActive="active">Sign Out</a>
+                </li>
+                <li *ngIf="!(userLoggedIn | async)" class="active">
+                    <a routerLink="/joinus" routerLinkActive="active">Join Us</a>
+                </li>
+                <li *ngIf="!(userLoggedIn | async)">
+                    <a routerLink="/login" routerLinkActive="active">Login</a>
+                </li>
+            </ul>
+            <p *ngIf="(userLoggedIn | async)" class="navbar-text navbar-right" style="margin-right:10px">{{currentUser.userName}}</p>
+        </div>
+    </div>
+</nav>

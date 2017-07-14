@@ -1,0 +1,153 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="bs-component">
+      <div class="pull-left">
+        <h2>Clients</h2>
+      </div>
+      <div class="pull-left" style="padding-left: 10px;">
+        <h2>
+          <input type="text" class="form-control input-sm" placeholder="Search">
+        </h2>
+      </div>
+      <div class="pull-right">
+        <h2>
+          <a class="text-right btn btn-primary btn-block" data-toggle="modal" data-target="#newClient" (click)="newClientRequest()">add New Client</a>
+        </h2>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="bs-component"> 
+      <div *ngFor="let client of clients" class="col-md-3 col-sm-6">
+        <div class="panel panel-default">
+          <div class="panel-heading clientcard">
+            <span class="pull-left">
+              <b>{{ client.clientName }}</b>&nbsp;&nbsp;
+              <a href="#"><span class="badge clientcard">3&nbsp;&nbsp;<i class="fa fa-folder-open-o fa-lg" aria-hidden="true"></i></span></a>
+            </span>
+            <span class="pull-right">
+              <a class="text-danger clientcard" data-toggle="modal" data-target="#confirmDeleteClient" (click)="deleteClientRequest(client)">
+                <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+              </a>
+              <a class="text-primary clientcard" data-toggle="modal" data-target="#newClient" (click)="editClientRequest(client)">
+                <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+              </a>
+            </span>
+            <div class="clearfix"></div>
+          </div>
+          <div class="panel-body">
+            <div class="col-xm-12">
+              <span class="pull-left">
+                 <img src="http://placehold.it/75/55C1E7/fff" class="pull-left">
+              </span>
+              <span class="pull-right text-right">
+                  {{ client.clientServiceGroup | servicegroup }}<br>
+                  {{ client.clientIndustry | industry }}<br>
+                  {{ client.clientCountry | country }}
+              </span>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="bs-component">
+    <div id="newClient" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 *ngIf="editClient._id === ''" class="modal-title">New Client</h4>
+            <h4 *ngIf="editClient._id != ''" class="modal-title">Edit Client</h4>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="clientForm" class="form-horizontal">
+              <fieldset>
+                <div class="form-group">
+                  <div class="col-md-12" [ngClass]="{'has-error': clientForm.controls.clientName.dirty && !clientForm.controls.clientName.valid}">
+                    <input type="text" class="form-control input-sm" formControlName="clientName" [(ngModel)]="editClient.clientName" placeholder="Client name" required>
+                    <p class="text-danger" *ngIf="clientForm.controls.clientName.dirty && !clientForm.controls.clientName.valid">Client name should be at least 3 characters long.</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-12" [ngClass]="{'has-error': clientForm.controls.clientServiceGroup.dirty && !clientForm.controls.clientServiceGroup.valid}">
+                    <select class="form-control input-sm" id="select" formControlName="clientServiceGroup" [(ngModel)]="editClient.clientServiceGroup" required (change)="onSelectServiceGroup($event.target.value)">
+                      <option value="" selected disabled>Client Service Group</option>
+                      <option *ngFor="let serviceGroup of serviceGroups" [value]="serviceGroup.idServiceGroup">{{ serviceGroup.serviceGroup }}</option>
+                    </select>
+                    <p class="text-danger" *ngIf="clientForm.controls.clientServiceGroup.dirty && !clientForm.controls.clientServiceGroup.valid">You must select a Service Group.</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-12" [ngClass]="{'has-error': clientForm.controls.clientIndustry.dirty && !clientForm.controls.clientIndustry.valid}">
+                    <select class="form-control input-sm" id="select" formControlName="clientIndustry" [(ngModel)]="editClient.clientIndustry" required>
+                      <option value="" selected disabled>Client Industry</option>
+                      <option *ngFor="let industry of industries" [value]="industry.idIndustry">{{ industry.industry }}</option>
+                    </select>
+                    <p class="text-danger" *ngIf="clientForm.controls.clientIndustry.dirty && !clientForm.controls.clientIndustry.valid">You must select an Industry.</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-12" [ngClass]="{'has-error': clientForm.controls.clientCountry.dirty && !clientForm.controls.clientCountry.valid}">
+                    <select class="form-control input-sm" id="select" formControlName="clientCountry" [(ngModel)]="editClient.clientCountry" required>
+                      <option value="" selected disabled>Client Country</option>
+                      <option *ngFor="let country of countries" [value]="country.idCountry">{{ country.country }}</option>
+                    </select>
+                    <p class="text-danger" *ngIf="clientForm.controls.clientCountry.dirty && !clientForm.controls.clientCountry.valid">You must select a Country.</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <app-taginput
+                      [listOfTags]="editClient.clientUsers"
+                      [tagPlaceHolder]="tagPlaceHolder"
+                      [maxNumberOfTags]="maxNumberOfUserPermissions"
+                      [minLengthOfTag]="minLengthOfUser"
+                      [maxLengthOfTag]="maxLengthOfUser"
+                      [allowDuplicates]=true
+                      [autoCompleteTagList]="listOfUsers"
+                      (newTagEvent)="updateListOfUsers($event)">
+                    </app-taginput>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <a id="closeNewClient" class="btn btn-default" data-dismiss="modal">Close</a>
+            <a *ngIf="!loading" class="btn btn-primary" (click)="clientSubmit(editClient._id)">Save</a>
+            <a *ngIf="loading" class="btn btn-primary"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="bs-component">
+    <div id="confirmDeleteClient" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Attention!!!</h4>
+          </div>
+          <div class="modal-body">
+            <p>This action cannot be undone. Do you want to continue deleting <b>{{ selectedClient.clientName }}</b>?</p>
+          </div>
+          <div class="modal-footer">
+            <a id="closeConfirmDeleteClient" class="btn btn-default" data-dismiss="modal">Cancel</a>
+            <a *ngIf="!loading" class="btn btn-danger" (click)="deleteClient(selectedClient._id)">Delete</a>
+            <a *ngIf="loading" class="btn btn-danger"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

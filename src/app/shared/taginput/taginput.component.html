@@ -1,0 +1,11 @@
+<div class="taginput form-control">
+  <ul class="taginput" style="display:block">
+    <li *ngFor="let tag of listOfTags" class="active">
+      <a href="#">{{ tag }}<button type="button" class="closetag" data-dismiss="alert" (click)="removeTag(tag)">&times;</button>&nbsp;</a>
+    </li>
+    <input *ngIf="(maxNumberOfTags == 0) || (listOfTags?.length < maxNumberOfTags)" type="text" ngControl="inputUser" placeholder="{{ tagPlaceHolder }}" [(ngModel)]="newTag" (keyup.enter)="addTag()" (keyup)="checkAutoComplete()">
+    <div *ngIf="(autoCompleteTagList) && (autoCompleteTagList.length > 0)" class="list-group">
+      <a *ngFor="let tag of autoCompleteTagList" class="list-group-item" (click)="loadFromAutoComplete(tag)">{{ tag }}</a>
+    </div>
+  </ul>
+</div>

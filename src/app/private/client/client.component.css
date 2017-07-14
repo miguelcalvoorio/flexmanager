@@ -1,0 +1,17 @@
+.badge.clientcard {
+  margin-bottom: 3px;
+}
+
+.panel-heading.clientcard {
+  padding-top: 5px;   
+  padding-bottom: 5px;
+}
+
+a.clientcard {
+  margin-left: 5px;    
+}
+
+a.clientcard:hover {
+  color:#CCCCCC;
+  cursor:pointer;
+}

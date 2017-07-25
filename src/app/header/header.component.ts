@@ -13,7 +13,7 @@ import { User }         from '../models/user';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  private userLoggedIn: Observable<boolean>;
+  private userLoggedIn: Observable<User>;
   private serviceSubscription: Subscription;
   private currentUser: User;
     
@@ -24,10 +24,11 @@ export class HeaderComponent implements OnInit {
     private loginService: LoginService) { }
     
   ngOnInit() {
-    this.userLoggedIn = this.loginService.getIsUserLoggedIn();
-    this.serviceSubscription = this.userLoggedIn.subscribe(isUserLoggedIn => {
-      if (isUserLoggedIn) {
-        this.currentUser = this.loginService.getCurrentUser();
+    this.userLoggedIn = this.loginService.getUserLoggedIn();
+    this.serviceSubscription = this.userLoggedIn.subscribe(user => {
+      console.log('He pillado cambio de user status: ', user);
+      if (user) {
+        this.currentUser = user;
       } else {
         this.currentUser = new User();;
       }

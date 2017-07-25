@@ -16,6 +16,10 @@ export class ClientService {
   getAll () {
     return this.http.get('/clients').map((response: Response) => response.json());
   }
+  
+  findClients(search: string, page: string, pagesize: number) {
+    return this.http.get('/clients/?search=' + search + '&page=' + page + '&pagesize=' + pagesize).map((response: Response) => response.json());
+  }
     
   deleteClient (id: string) {
     return this.http.delete('/clients/' + id).map((response: Response) => {});

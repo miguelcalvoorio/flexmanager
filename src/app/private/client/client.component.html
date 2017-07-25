@@ -1,3 +1,4 @@
+<!-- INI Header -->
 <div class="row">
   <div class="col-md-12">
     <div class="bs-component">
@@ -6,7 +7,7 @@
       </div>
       <div class="pull-left" style="padding-left: 10px;">
         <h2>
-          <input type="text" class="form-control input-sm" placeholder="Search">
+          <input type="text" class="form-control input-sm" placeholder="Search" [(ngModel)]="searchName" (keyup)="search()">
         </h2>
       </div>
       <div class="pull-right">
@@ -18,6 +19,8 @@
     </div>
   </div>
 </div>
+<!-- END Header -->
+<!-- INI Client list -->
 <div class="row">
   <div class="col-md-12">
     <div class="bs-component"> 
@@ -56,6 +59,21 @@
     </div>
   </div>
 </div>
+<!-- END Client list -->
+<!-- INI Pagination -->
+<div class="row" *ngIf="pager.pages && pager.pages.length">
+  <div class="col-md-12">
+    <div class="bs-component text-center">
+      <ul class="pagination pagination-sm">
+        <li [ngClass]="{disabled:pager.currentPage === 1}"><a (click)="previous()">&laquo;</a></li>   
+        <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page, disabled:pager.currentPage != page}"><a>{{page}}</a></li>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}"><a (click)="next()">&raquo;</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- END Pagination -->
+<!-- INI New/Edit client modal window -->
 <div class="row">
   <div class="bs-component">
     <div id="newClient" class="modal">
@@ -129,6 +147,8 @@
     </div>
   </div>
 </div>
+<!-- END New/Edit client modal window -->
+<!-- INI Delete client confirm modal window -->
 <div class="row">
   <div class="bs-component">
     <div id="confirmDeleteClient" class="modal">
@@ -151,3 +171,4 @@
     </div>
   </div>
 </div>
+<!-- END Delete client confirm modal window -->

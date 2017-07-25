@@ -8,6 +8,7 @@ import { HttpModule }             from '@angular/http';
 import { CustomHttpProvider } from './helpers/custom-http'
 import { AuthHelp } from './helpers/auth-help';
 import { MessageService } from './services/message.service';
+import { PaginationService } from './services/pagination.service';
 import { LoginService } from './services/login.service';
 import { UserService } from './services/user.service';
 import { ClientService } from './services/client.service';
@@ -58,6 +59,7 @@ import { TaskComponent } from './private/task/task.component';
     CustomHttpProvider,
     AuthHelp,
     MessageService,
+    PaginationService,
     LoginService,
     UserService,
     ClientService
